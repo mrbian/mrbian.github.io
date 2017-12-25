@@ -1,0 +1,776 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Koa,Angular,Webpack," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是大学接触web开发以后做的第一个大型项目。我刚开始是负责前端开发部分，后来因为客户的需求变更，需要将单商户改为多商户，故我对后端代码也进行了大量编写与修改。 技术选择先简单说一下技术选择。  JS框架选用Angular1.0，项目开始时AngularJs1.0刚出炉，就灰常想尝试一下。 css框架选用amazeui，这样做出来的网页比较好看。 打包工具选用webpack，毕竟是自动化打包发布加">
+<meta name="keywords" content="Koa,Angular,Webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小地主果蔬批发网站开发总结">
+<meta property="og:url" content="https://mrbian.github.io/2017/12/26/xiaodizhu/index.html">
+<meta property="og:site_name" content="blnx@卞留念">
+<meta property="og:description" content="这是大学接触web开发以后做的第一个大型项目。我刚开始是负责前端开发部分，后来因为客户的需求变更，需要将单商户改为多商户，故我对后端代码也进行了大量编写与修改。 技术选择先简单说一下技术选择。  JS框架选用Angular1.0，项目开始时AngularJs1.0刚出炉，就灰常想尝试一下。 css框架选用amazeui，这样做出来的网页比较好看。 打包工具选用webpack，毕竟是自动化打包发布加">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-25T22:16:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="小地主果蔬批发网站开发总结">
+<meta name="twitter:description" content="这是大学接触web开发以后做的第一个大型项目。我刚开始是负责前端开发部分，后来因为客户的需求变更，需要将单商户改为多商户，故我对后端代码也进行了大量编写与修改。 技术选择先简单说一下技术选择。  JS框架选用Angular1.0，项目开始时AngularJs1.0刚出炉，就灰常想尝试一下。 css框架选用amazeui，这样做出来的网页比较好看。 打包工具选用webpack，毕竟是自动化打包发布加">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '卞留念'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://mrbian.github.io/2017/12/26/xiaodizhu/"/>
+
+
+
+
+
+  <title> 小地主果蔬批发网站开发总结 | blnx@卞留念 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e9ac4a25069baac7cffcfda1fdae609d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blnx@卞留念</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/images/resume.pdf" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-fire"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://mrbian.github.io/2017/12/26/xiaodizhu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="卞留念">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blnx@卞留念">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                小地主果蔬批发网站开发总结
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T01:53:45+08:00">
+                2017-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+                  <div class="post-tags">
+                    
+                      <a href="/tags/Koa/" rel="tag"># Koa</a>
+                    
+                      <a href="/tags/Angular/" rel="tag"># Angular</a>
+                    
+                      <a href="/tags/Webpack/" rel="tag"># Webpack</a>
+                    
+                  </div>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这是大学接触web开发以后做的第一个大型项目。我刚开始是负责前端开发部分，后来因为客户的需求变更，需要将单商户改为多商户，故我对后端代码也进行了大量编写与修改。</p>
+<h3 id="技术选择"><a href="#技术选择" class="headerlink" title="技术选择"></a>技术选择</h3><p>先简单说一下技术选择。</p>
+<ul>
+<li>JS框架选用Angular1.0，项目开始时AngularJs1.0刚出炉，就灰常想尝试一下。</li>
+<li>css框架选用amazeui，这样做出来的网页比较好看。</li>
+<li>打包工具选用webpack，毕竟是自动化打包发布加热修复，用着就是好。</li>
+<li>后端使用Koa1.0，使用大明鼎鼎的tj的co用于最基本的编程风格。</li>
+<li>数据库选用mysql。</li>
+<li>后端渲染模板使用ect。</li>
+</ul>
+<h3 id="脚手架"><a href="#脚手架" class="headerlink" title="脚手架"></a>脚手架</h3><p>我大致地用webpack和koa搭了一个脚手架，文件结构如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">FruitMaker/</span><br><span class="line">├── instances/  用于存放全局、单例的文件</span><br><span class="line">├── lib/ 能够复用的文件，不仅限于该项目</span><br><span class="line">├── log 日志目录 (不被包含在git中）</span><br><span class="line">├── models/</span><br><span class="line">│   ├── index.js 入口文件，自动加载其他文件，除 migrate.js</span><br><span class="line">│   │   &gt; 其他文件需要遵从以下规则</span><br><span class="line">│   │</span><br><span class="line">    module.exports = (sequelize, DataType) =&gt; &#123; return yourModel;&#125;;</span><br><span class="line"></span><br><span class="line">│   └── user.js 微信用户</span><br><span class="line">├── public/ 资源文件， 压缩好的文件都放这里</span><br><span class="line">│   ├── fonts/  字体目录</span><br><span class="line">│   ├── js/</span><br><span class="line">│   └── css/</span><br><span class="line">├── routes/</span><br><span class="line">│   ├── index.js 入口文件，自动加载其他文件</span><br><span class="line">│   │   &gt; 其他文件需要遵从以下规则</span><br><span class="line">│   │</span><br><span class="line">    module.exports = (sequelize, DataType) =&gt; &#123; return yourModel;&#125;;</span><br><span class="line"></span><br><span class="line">│   └── user.js 微信用户</span><br><span class="line">├── scripts/   脚本目录（一些要运行的小脚本）</span><br><span class="line">├── src/   源码目录</span><br><span class="line">│   ├── bower_components/  bower目录</span><br><span class="line">│   ├── template_content/  后台模版源码</span><br><span class="line">│   ├── js/</span><br><span class="line">│   └── css/</span><br><span class="line">├── test/   单元测试目录</span><br><span class="line">├── views/   视图目录</span><br><span class="line">├── helpers/   辅助模块目录</span><br><span class="line">│   ├── auth.js  登录验证相关</span><br><span class="line">│   ├── verifyCode  短信验证码</span><br></pre></td></tr></table></figure></p>
+<p>本工程在src内存储前端源码，在routes和models里面存储后端源码，其中models是数据库访问层，routes是路由层。</p>
+<h3 id="一些教训"><a href="#一些教训" class="headerlink" title="一些教训"></a>一些教训</h3><ul>
+<li><p>在项目刚开始的时候，工程复杂度并不是很高，把前端和后端代码放到一个工程里面，影响不大，merge时git的conflicts也比较少。但是随着功能点的增多，项目变得越来越大，经常在排查一个bug时，需要挨个确定错误是出在前端还是出在后端，在查找对应相关文件的过程中，往往需要花大量精力用在前后端文件的判别上，很容易由于分工不明导致效率低下。</p>
+</li>
+<li><p>特别是客户要求由单商户改为多商户，我一个人去更改对应的功能，新代码很容易写，除bug却非常耗时间，往往是看了前端代码再看后端代码，看了后端再看前端，大脑在不同的域内来回切换，精神稍微不集中就忘记了排查到哪儿了，就得推倒重来。</p>
+</li>
+</ul>
+<h3 id="一些收获"><a href="#一些收获" class="headerlink" title="一些收获"></a>一些收获</h3><ul>
+<li>在这个项目里，前端技术我熟悉了AngularJs的开发，Angular1用于增删改查，着实是方便。</li>
+<li>后端技术学到最多的就是promise了，由于nodejs的单线程异步性质，很多代码就需要利用co和promise进行同步控制，比如原先正常的循环就需要改成递归才能保证执行的结果。</li>
+<li>架构方面，吸取到的最大的教训就是千万不要把前端代码和后端代码放到一个工程里，一定要做前后端分离，于是就有了用node做中间层的想法。同时也验证了做模块分离的正确性。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/18/book-publish/" rel="next" title="参与《大数据安全》编书记">
+                <i class="fa fa-chevron-left"></i> 参与《大数据安全》编书记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/26/xueban3/" rel="prev" title="学伴后端开发总结">
+                学伴后端开发总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="卞留念" />
+          <p class="site-author-name" itemprop="name">卞留念</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mrbian" target="_blank" title="GitHub">
+                  
+                    
+                      <i class="fa fa-fw fa-github"></i>
+                    
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://git.oschina.net/mrbian" target="_blank" title="GitOschina">
+                  
+                    
+                      <img src="http://static.oschina.net/uploads/logo/gitosc_F7OXZ.png" alt="GitOschina" />
+                    
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        <div class="">
+<a class="email" href="mailto:mrbianliunian@outlook.com">mrbianliunian@outlook.com</a>
+</div>
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#技术选择"><span class="nav-text">技术选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#脚手架"><span class="nav-text">脚手架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些教训"><span class="nav-text">一些教训</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些收获"><span class="nav-text">一些收获</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">卞留念</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,771 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Koa,爬虫,Nginx," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="学伴是实验室每年都要进行维护优化的一项产品。从真真姐，冉学长，狐神的三天开发出的1.0版本；到真真姐，冉学长，小马哥和男神的全新2.0，安卓，IOS平台全覆盖；再到3.0的技术迁移与升级，学伴也是越做越好，特别是3.0版本，日活和注册用户数都过万，大连理工大学总共也只有三万多在校生，这说明我们的产品在学生群体里是非常受欢迎的。 从python到NodeJS由于历史遗留问题，学伴2.0的后台没有使用">
+<meta name="keywords" content="Koa,爬虫,Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学伴后端开发总结">
+<meta property="og:url" content="https://mrbian.github.io/2017/12/26/xueban3/index.html">
+<meta property="og:site_name" content="blnx@卞留念">
+<meta property="og:description" content="学伴是实验室每年都要进行维护优化的一项产品。从真真姐，冉学长，狐神的三天开发出的1.0版本；到真真姐，冉学长，小马哥和男神的全新2.0，安卓，IOS平台全覆盖；再到3.0的技术迁移与升级，学伴也是越做越好，特别是3.0版本，日活和注册用户数都过万，大连理工大学总共也只有三万多在校生，这说明我们的产品在学生群体里是非常受欢迎的。 从python到NodeJS由于历史遗留问题，学伴2.0的后台没有使用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-25T22:19:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学伴后端开发总结">
+<meta name="twitter:description" content="学伴是实验室每年都要进行维护优化的一项产品。从真真姐，冉学长，狐神的三天开发出的1.0版本；到真真姐，冉学长，小马哥和男神的全新2.0，安卓，IOS平台全覆盖；再到3.0的技术迁移与升级，学伴也是越做越好，特别是3.0版本，日活和注册用户数都过万，大连理工大学总共也只有三万多在校生，这说明我们的产品在学生群体里是非常受欢迎的。 从python到NodeJS由于历史遗留问题，学伴2.0的后台没有使用">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '卞留念'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://mrbian.github.io/2017/12/26/xueban3/"/>
+
+
+
+
+
+  <title> 学伴后端开发总结 | blnx@卞留念 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e9ac4a25069baac7cffcfda1fdae609d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blnx@卞留念</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/images/resume.pdf" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-fire"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://mrbian.github.io/2017/12/26/xueban3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="卞留念">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blnx@卞留念">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                学伴后端开发总结
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T06:14:15+08:00">
+                2017-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+                  <div class="post-tags">
+                    
+                      <a href="/tags/Koa/" rel="tag"># Koa</a>
+                    
+                      <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+                    
+                      <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+                    
+                  </div>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>学伴是实验室每年都要进行维护优化的一项产品。<br>从真真姐，冉学长，狐神的三天开发出的1.0版本；<br>到真真姐，冉学长，小马哥和男神的全新2.0，安卓，IOS平台全覆盖；<br>再到3.0的技术迁移与升级，学伴也是越做越好，特别是3.0版本，日活和注册用户数都过万，大连理工大学总共也只有三万多在校生，这说明我们的产品在学生群体里是非常受欢迎的。</p>
+<h3 id="从python到NodeJS"><a href="#从python到NodeJS" class="headerlink" title="从python到NodeJS"></a>从python到NodeJS</h3><p>由于历史遗留问题，学伴2.0的后台没有使用JS进行开发，而是选择了python的flask这样一个轻量型的框架，2.0的后台存在着模块与模块之间逻辑划分不明确的缺点，因此我在改变后台编程语言为JS后，特别思考了这个问题，在重组整个架构时，确保了模块之间分工明确，组织合理。</p>
+<h3 id="技术选择"><a href="#技术选择" class="headerlink" title="技术选择"></a>技术选择</h3><p>由于我负责的是学伴3.0的后台开发工作，而前端大部由安卓和IOS客户端来完成，只有一小部分如新闻与授权等用到了web页面，其余都是和数据与网络打交道的后端，因此正好可以用来小试前后端分离。</p>
+<ul>
+<li>占比很少的前端使用webpack+scss。</li>
+<li>后端使用Koa2和ES6进行开发，部署时使用babel进行转义。</li>
+<li>组织架构采用功能分离的方法。</li>
+<li>采用nginx进行负载均衡，保证服务器的CPU利用率不过低。</li>
+<li>利用linux系统的expect软件编写脚本实现了全自动化部署。</li>
+</ul>
+<h3 id="工程架构"><a href="#工程架构" class="headerlink" title="工程架构"></a>工程架构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">xueban3/</span><br><span class="line">├── instances/  用于存放全局、单例的文件</span><br><span class="line">├── lib/ 能够复用的文件，不仅限于该项目</span><br><span class="line">├── log 日志目录 (不被包含在git中）</span><br><span class="line">├── models/</span><br><span class="line">│   ├── index.js 入口文件，自动加载其他文件，除 migrate.js</span><br><span class="line">│   │   &gt; 其他文件需要遵从以下规则</span><br><span class="line">│   │</span><br><span class="line">    module.exports = (sequelize, DataType) =&gt; &#123; return yourModel;&#125;;</span><br><span class="line">│</span><br><span class="line">├── public/ 资源文件， 事先需要的公共资源和用户上传的经过压缩处理后的头像</span><br><span class="line">│   ├── dists/  资源文件</span><br><span class="line">│   ├── uploads/    用户头像等上传目录</span><br><span class="line">│</span><br><span class="line">├── routes/</span><br><span class="line">│   ├── index.js 入口文件，自动加载其他文件</span><br><span class="line">│   │   &gt; 其他文件需要遵从以下规则</span><br><span class="line">│   │</span><br><span class="line">    module.exports = (sequelize, DataType) =&gt; &#123; return yourModel;&#125;;</span><br><span class="line">│   │</span><br><span class="line">│   ├── restraints.js  访问限制路由</span><br><span class="line">│   ├── upload.js 文件上传路由</span><br><span class="line">│   └── api/ 所有客户端请求相关</span><br><span class="line">│</span><br><span class="line">├── modelAdaptor/   数据接口层，提供接口供路由层调用</span><br><span class="line">├── Spider/   爬虫层</span><br><span class="line">├── Task/      任务层，调用爬虫层，结果供路    由层调用</span><br></pre></td></tr></table></figure>
+<p>上面最重要的关系就是路由层—任务层—爬虫层的关系，路由层只能调用任务层提供的接口，不能越权调用爬虫层，通过这样的按功能分层，保证了代码耦合度的下降，同时通过数据库接口层，保证了各层特别是路由层的语义话，让代码的维护变得轻松简单。</p>
+<h3 id="一些收获"><a href="#一些收获" class="headerlink" title="一些收获"></a>一些收获</h3><ul>
+<li>利用这次工程，锻炼了设置nginx负载均衡的能力，从而保证cpu的利用率不低于50%。</li>
+<li>使用expect软件编写脚本，实现部署的全自动化，节省了大量时间人力，在后面的工程中都做了自动化部署脚本。</li>
+<li>同安卓，IOS客户端开发的接口设定，要有错误码等信息，交流时应该注意综合二人的困难选一个折中的方面。</li>
+<li>即使是JS，单步调试必不可少。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/26/xiaodizhu/" rel="next" title="小地主果蔬批发网站开发总结">
+                <i class="fa fa-chevron-left"></i> 小地主果蔬批发网站开发总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/26/imooc/" rel="prev" title="EDA慕课网站开发总结">
+                EDA慕课网站开发总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="卞留念" />
+          <p class="site-author-name" itemprop="name">卞留念</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mrbian" target="_blank" title="GitHub">
+                  
+                    
+                      <i class="fa fa-fw fa-github"></i>
+                    
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://git.oschina.net/mrbian" target="_blank" title="GitOschina">
+                  
+                    
+                      <img src="http://static.oschina.net/uploads/logo/gitosc_F7OXZ.png" alt="GitOschina" />
+                    
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        <div class="">
+<a class="email" href="mailto:mrbianliunian@outlook.com">mrbianliunian@outlook.com</a>
+</div>
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#从python到NodeJS"><span class="nav-text">从python到NodeJS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技术选择"><span class="nav-text">技术选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工程架构"><span class="nav-text">工程架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些收获"><span class="nav-text">一些收获</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">卞留念</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
